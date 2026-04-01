@@ -21,7 +21,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import edu.virginia.cs.androidapp3.ui.theme.MyApplicationTheme
+import edu.virginia.cs.androidapp3.ui.theme.AndroidApp3Theme
 
 class MainActivity : ComponentActivity() {
     private val viewModel by viewModels<MainViewModel>()
@@ -30,7 +30,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            MyApplicationTheme {
+            AndroidApp3Theme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     MainScreen(viewModel, modifier = Modifier.padding(innerPadding))
                 }
@@ -56,7 +56,7 @@ fun MainScreen(
 @Composable
 @Preview(showBackground = true)
 fun PreviewMainScreen() {
-    MyApplicationTheme {
+    AndroidApp3Theme {
         MainScreen(viewModel = MainViewModel())
     }
 }
@@ -97,7 +97,7 @@ fun Counter(
 @Preview(name = "Dark Mode Counter", showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun CounterPreview() {
-    MyApplicationTheme {
+    AndroidApp3Theme {
         Counter(viewModel = MainViewModel(0))
     }
 }
