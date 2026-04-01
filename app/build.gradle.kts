@@ -1,7 +1,12 @@
+// Copied this over from my Android App 2 as it has the same deps
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    // ksp plugin needed by room
+    id("com.google.devtools.ksp")
+    kotlin("plugin.serialization")
 }
 
 android {
@@ -33,15 +38,36 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-    kotlinOptions {
-        jvmTarget = "11"
+
+//    kotlinOptions {
+//        jvmTarget = "11"
+//    }
+
+    // Gemini 3 Pro helped me update this to the new way of defining it since the above string no longer works with certain newer plugins
+    // issue and resolution here: https://kotlinlang.org/docs/gradle-compiler-options.html#migrate-from-kotlinoptions-to-compileroptions
+    kotlin {
+        compilerOptions {
+            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11)
+        }
     }
+
     buildFeatures {
         compose = true
     }
 }
 
 dependencies {
+    // Retrofit dependencies
+    implementation(libs.retrofit)
+    implementation(libs.converter.kotlinx.serialization)
+    // kotlin serialization for use with retrofit
+    implementation(libs.kotlinx.serialization.json)
+
+    // Room dependencies
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
+
     // Learned how to add this dependency with Gemini 3 Pro
     implementation(libs.androidx.ui.text.google.fonts)
 
@@ -53,6 +79,8 @@ dependencies {
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
+    // removed this redundant dep (I had it twice somehow)
+//    implementation(libs.androidx.material3)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
