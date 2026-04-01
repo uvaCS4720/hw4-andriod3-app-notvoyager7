@@ -1,4 +1,4 @@
-package edu.nd.pmcburne.hello.ui.theme
+package edu.virginia.cs.androidapp3.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

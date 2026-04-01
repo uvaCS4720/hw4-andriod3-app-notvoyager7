@@ -5,13 +5,13 @@ plugins {
 }
 
 android {
-    namespace = "edu.nd.pmcburne.hello"
+    namespace = "edu.virginia.cs.androidapp3"
     compileSdk {
         version = release(36)
     }
 
     defaultConfig {
-        applicationId = "edu.nd.pmcburne.hello"
+        applicationId = "edu.virginia.cs.androidapp3"
         minSdk = 26
         targetSdk = 36
         versionCode = 1

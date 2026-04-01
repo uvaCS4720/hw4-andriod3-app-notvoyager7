@@ -1,4 +1,4 @@
-package edu.nd.pmcburne.hello
+package edu.virginia.cs.androidapp3
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
