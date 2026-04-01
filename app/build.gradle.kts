@@ -57,6 +57,12 @@ android {
 }
 
 dependencies {
+    // Google Maps dependency
+    implementation(libs.maps.compose)
+
+    // Material icons
+    implementation(libs.androidx.compose.material.icons.core)
+
     // Retrofit dependencies
     implementation(libs.retrofit)
     implementation(libs.converter.kotlinx.serialization)

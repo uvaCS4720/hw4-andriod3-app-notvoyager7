@@ -16,10 +16,12 @@ composeBom = "2024.09.00"
 androidx-compose-googlefonts = "1.10.4"
 # removed this as it is redundant
 #material3 = "1.4.0"
+mapsCompose = "6.12.0"
 retrofit = "3.0.0"
 roomRuntime = "2.8.4"
 
 [libraries]
+androidx-compose-material-icons-core = { module = "androidx.compose.material:material-icons-core" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomRuntime" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomRuntime" }
@@ -43,6 +45,7 @@ androidx-ui-text-google-fonts = { group = "androidx.compose.ui", name = "ui-text
 # removed this as it is redundant
 #androidx-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "material3" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+maps-compose = { module = "com.google.maps.android:maps-compose", version.ref = "mapsCompose" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 
 [plugins]
