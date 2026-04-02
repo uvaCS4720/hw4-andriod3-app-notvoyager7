@@ -30,7 +30,7 @@ data class Location(
         )
     ],
     indices = [
-        Index(value = ["location_id", "tag"], unique = true)
+        Index(value = ["location_id", "name"], unique = true)
     ]
 )
 data class Tag(
