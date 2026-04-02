@@ -110,8 +110,8 @@ fun MainScreen(
 
         MinimalDropdownMenu(
             options = uniqueTags.value,
-            // Got this from google AI overview to capitalize first character when displaying
-            text = uiState.value.activeTagName.replaceFirstChar { it.titlecase() },
+            // Stopped capitalizing tags b/c I wanted to display them as fetched
+            text = uiState.value.activeTagName,
             modifier = Modifier.padding(start = 5.dp),
             onClick = {
                 viewModel.updateTag(it)
