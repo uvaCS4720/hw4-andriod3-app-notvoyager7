@@ -27,7 +27,8 @@ interface LocationDao {
     // Credit to Gemini 3.1 Pro for this function to ensure these are completed as a single transaction
     @Transaction
     suspend fun synchronizeLocationsAndTags(locations: List<Location>, tags: List<Tag>) {
-        deleteAllLocations()
+        // TODO: ask about ghost data
+//        deleteAllLocations()  // I removed this as it was not necessary because of my on conflict replace/ignore strategies
         insertAllLocations(locations)
         insertAllTags(tags)
     }
