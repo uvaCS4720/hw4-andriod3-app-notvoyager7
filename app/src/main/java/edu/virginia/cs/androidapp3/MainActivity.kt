@@ -104,7 +104,7 @@ fun MainScreen(
         )
 
         if (uiState.value.error) Text(
-            text = "Failed to refresh - check internet connection",
+            text = "Failed to sync - check internet connection",
             color = MaterialTheme.colorScheme.error
         )
 
