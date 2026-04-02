@@ -1,25 +1,26 @@
 package edu.virginia.cs.androidapp3
 
-import kotlinx.coroutines.runBlocking
-import org.junit.Test
+import kotlinx.coroutines.flow.Flow
 
-import org.junit.Assert.*
+// Gemini 3 Pro generated this RefreshResult enum for me
+sealed interface RefreshResult {
+    data object SUCCESS : RefreshResult
+    data object ERROR : RefreshResult
+}
 
-/**
- * Example local unit test, which will execute on the development machine (host).
- *
- * See [testing documentation](http://d.android.com/tools/testing).
- */
-class ExampleUnitTest {
-    @Test
-    fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+class LocationRepository(
+    private val locationDao: LocationDao,
+    private val locationApi: LocationApiService
+) {
+    fun getLocationsWithTags(): Flow<List<LocationWithTags>> {
+        return locationDao.getLocationsWithTags()
     }
 
-    @Test
-    fun test() = runBlocking {
-        val locationApi = LocationApi.api
+    fun getUniqueTags(): Flow<List<String>> {
+        return locationDao.getUniqueTags()
+    }
 
+    suspend fun refreshLocationsWithTags(): RefreshResult {
         try {
             val locationsRemoteData: List<LocationRemoteData> = locationApi.getLocationsRemoteData()
 
@@ -57,13 +58,16 @@ class ExampleUnitTest {
                 }
             }
 
-            println(locationList)
-            println(tagList)
+            locationDao.synchronizeLocationsAndTags(locationList, tagList)
         } catch (e: Exception) {
             // Gemini 3 Pro suggested this to ensure that I do not mistakenly suppress a coroutine's cancellation
             if (e is kotlinx.coroutines.CancellationException) {
                 throw e // Let coroutines handle cancellation
             }
+
+            return RefreshResult.ERROR
         }
+
+        return RefreshResult.SUCCESS
     }
 }

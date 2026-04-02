@@ -22,7 +22,7 @@ private val retrofit = Retrofit.Builder()
 
 interface LocationApiService {
     @GET("placemarks.json")  // Gemini 3.1 Pro helped me debug an issue with my @GET
-    suspend fun getLocationRemoteData(): List<LocationRemoteData>
+    suspend fun getLocationsRemoteData(): List<LocationRemoteData>
 }
 
 object LocationApi {

@@ -23,4 +23,16 @@ interface LocationDao {
     // because of the on-delete cascade, this will delete all tags as well
     @Query("DELETE FROM Location")
     fun deleteAllLocations()
+
+    // Credit to Gemini 3.1 Pro for this function to ensure these are completed as a single transaction
+    @Transaction
+    suspend fun synchronizeLocationsAndTags(locations: List<Location>, tags: List<Tag>) {
+        deleteAllLocations()
+        insertAllLocations(locations)
+        insertAllTags(tags)
+    }
+
+    // Credit to Gemini 3.1 Pro for this function so I can fetch these with SQL instead of having to filter in kotlin
+    @Query("SELECT DISTINCT tag FROM Tag ORDER BY tag ASC")
+    fun getUniqueTags(): Flow<List<String>>
 }
