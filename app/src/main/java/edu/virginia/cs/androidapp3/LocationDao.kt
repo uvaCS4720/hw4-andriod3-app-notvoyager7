@@ -22,14 +22,13 @@ interface LocationDao {
 
     // because of the on-delete cascade, this will delete all tags as well
     @Query("DELETE FROM Location")
-    fun deleteAllLocations()
+    suspend fun deleteAllLocations()
 
     // Credit to Gemini 3.1 Pro for this function to ensure these are completed as a single transaction
     @Transaction
     suspend fun synchronizeLocationsAndTags(locations: List<Location>, tags: List<Tag>) {
-        // TODO: ask about ghost data
-        // This version without the delete makes the assumption that locations will NEVER have another id (that they are unique and not changed)
-//        deleteAllLocations()  // I removed this as it was not necessary because of my on conflict replace/ignore strategies
+        // TODO: ask about ghost data - I added this to fix that problem, otherwise it does not *really* synchronize
+        deleteAllLocations()
         insertAllLocations(locations)
         insertAllTags(tags)
     }
