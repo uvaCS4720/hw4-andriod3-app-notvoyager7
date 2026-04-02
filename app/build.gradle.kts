@@ -7,6 +7,9 @@ plugins {
     // ksp plugin needed by room
     id("com.google.devtools.ksp")
     kotlin("plugin.serialization")
+
+    // needed for maps secret
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
 android {
@@ -52,6 +55,7 @@ android {
     }
 
     buildFeatures {
+        buildConfig = true
         compose = true
     }
 }
