@@ -19,7 +19,7 @@ data class MainUIState(
 
 // Google Gemini 3 Pro helped me write, debug, and design this complex view model that pulls from multiple flows
 class MainViewModel(
-    val locationRepository: LocationRepository
+    private val locationRepository: LocationRepository
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(
         MainUIState(
