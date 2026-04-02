@@ -41,6 +41,7 @@ import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 
@@ -81,6 +82,10 @@ fun MainScreen(
     viewModel: MainViewModel,
     modifier: Modifier = Modifier
 ) {
+    val uiState = viewModel.uiState.collectAsStateWithLifecycle()
+    val games = viewModel.locations.collectAsStateWithLifecycle()
+    val uniqueTags = viewModel.uniqueTagList.collectAsStateWithLifecycle()
+
     Column(modifier = modifier.padding(start = 10.dp, end = 10.dp, top = 15.dp)) {
         Text(
             text = "Map View",
@@ -89,55 +94,20 @@ fun MainScreen(
             color = MaterialTheme.colorScheme.secondary
         )
 
-        val tag = remember { mutableStateOf("core") }
+        if (uiState.value.error) Text(
+            text = "Failed to refresh - check internet connection",
+            color = MaterialTheme.colorScheme.error
+        )
+
         MinimalDropdownMenu(
-            // TODO: replace with the actual fetched list of unique tags, which will have to be persisted in the db
-            options = listOf(
-                "academic",
-                "administration",
-                "arts",
-                "athletics",
-                "bookstore",
-                "business",
-                "computer_science",
-                "core",
-                "dining",
-                "education",
-                "engineering",
-                "entertainment",
-                "health",
-                "historic",
-                "hospital",
-                "humanities",
-                "landmark",
-                "law",
-                "library",
-                "nursing",
-                "off_grounds",
-                "outdoor",
-                "parking",
-                "public_policy",
-                "recreation",
-                "retail",
-                "sciences",
-                "services",
-                "social_sciences",
-                "student_life",
-                "study",
-                "tours",
-                "transit",
-                "transportation",
-                "wellness"
-            ),
+            options = uniqueTags.value,
             // Got this from google AI overview to capitalize first character when displaying
-            // TODO: store this in the viewmodel (uiState)
-            text = tag.value.replaceFirstChar { it.titlecase() },
+            text = uiState.value.activeTagName.replaceFirstChar { it.titlecase() },
             modifier = Modifier.padding(start = 5.dp),
             onClick = {
-                tag.value = it
+                viewModel.updateTag(it)
             },
-            // TODO: have a loading state
-//            disabled = uiState.value.loading
+            disabled = uiState.value.loading
         )
     }
 }
