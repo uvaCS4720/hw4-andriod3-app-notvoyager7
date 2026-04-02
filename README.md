@@ -1,10 +1,8 @@
 Name: Kenning Spath (jct9dr)
 
 A few notes:
-- I assumed that location ids are never going to change (so if Olsson is id 3, it will always be id 3 in the API)
+- I assumed that when the directions say "Subsequent runs should only synchronize the data, not re-add it (for example, if I run your application twice, your database should still only have 1 'Alderman Library' location)" that just means not to add duplicates, but that it *is* fine to delete everything currently in the database and replace it with the remote data. I handled synchronization this way because it prevents ghost data (where a tag is removed but sticks around in the database).
 - I assumed tag names will always be lowercase in the API
-- I assumed tags will never be removed (no ghost data will be created)
-    - If tags could be removed or ids could change, I would have first deleted the database contents before inserting, rather than not deleting and just handling with on conflict ignore/replace
 - I assumed it is fine that the camera position is just tracked at the activity level 
 
 References:
