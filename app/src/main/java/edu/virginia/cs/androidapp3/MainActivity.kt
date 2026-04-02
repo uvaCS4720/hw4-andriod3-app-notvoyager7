@@ -44,6 +44,12 @@ import androidx.compose.ui.geometry.Size
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import com.google.android.gms.maps.model.CameraPosition
+import com.google.android.gms.maps.model.LatLng
+import com.google.maps.android.compose.GoogleMap
+import com.google.maps.android.compose.Marker
+import com.google.maps.android.compose.rememberCameraPositionState
+import com.google.maps.android.compose.rememberUpdatedMarkerState
 
 class MainActivity : ComponentActivity() {
     // copied this singleton pattern from Professor McBurney's example in the Counters Lab
@@ -83,7 +89,7 @@ fun MainScreen(
     modifier: Modifier = Modifier
 ) {
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
-    val games = viewModel.locations.collectAsStateWithLifecycle()
+    val locations = viewModel.locations.collectAsStateWithLifecycle()
     val uniqueTags = viewModel.uniqueTagList.collectAsStateWithLifecycle()
 
     Column(modifier = modifier.padding(start = 10.dp, end = 10.dp, top = 15.dp)) {
@@ -109,6 +115,31 @@ fun MainScreen(
             },
             disabled = uiState.value.loading
         )
+
+        // Credit to Gemini 3.1 Pro for giving me the location of UVA for this initial camera position
+        val uvaCampusPos = LatLng(38.03474, -78.50820)
+        val cameraPositionState = rememberCameraPositionState {
+            position = CameraPosition.fromLatLngZoom(uvaCampusPos, 14.5f)
+        }
+
+        GoogleMap(
+            modifier = Modifier.fillMaxSize(),
+            cameraPositionState = cameraPositionState
+        ) {
+            for (locationWithTags in locations.value) {
+                val locationPos = LatLng(locationWithTags.location.latitude, locationWithTags.location.longitude)
+                val locationMarkerState = rememberUpdatedMarkerState(position = locationPos)
+
+                Marker(
+                    state = locationMarkerState,
+                    title = locationWithTags.location.name,
+                    snippet = locationWithTags.location.description,
+                    draggable = false,
+                    visible = true
+                )
+            }
+        }
+
     }
 }
 

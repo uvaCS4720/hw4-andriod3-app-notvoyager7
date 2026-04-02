@@ -28,6 +28,7 @@ interface LocationDao {
     @Transaction
     suspend fun synchronizeLocationsAndTags(locations: List<Location>, tags: List<Tag>) {
         // TODO: ask about ghost data
+        // This version without the delete makes the assumption that locations will NEVER have another id (that they are unique and not changed)
 //        deleteAllLocations()  // I removed this as it was not necessary because of my on conflict replace/ignore strategies
         insertAllLocations(locations)
         insertAllTags(tags)
