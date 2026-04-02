@@ -41,9 +41,27 @@ import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
 
 class MainActivity : ComponentActivity() {
-    private val viewModel by viewModels<MainViewModel>()
+    // copied this singleton pattern from Professor McBurney's example in the Counters Lab
+    // this fetches the single gameDao for the entire application, and it only fetches it when it is needed
+    // (that is what the 'lazy' part is for)
+    private val locationDao by lazy {
+        val database = LocationDatabase.getDatabase(applicationContext)
+        return@lazy database.locationDao()
+    }
+
+    // Gemini 3 Pro showed me how to create this
+    // Linked me to the docs here: https://developer.android.com/topic/libraries/architecture/viewmodel/viewmodel-factories
+    val viewModel: MainViewModel by viewModels {
+        viewModelFactory {
+            initializer {
+                MainViewModel(LocationRepository(locationDao, LocationApi.api))
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

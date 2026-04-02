@@ -51,7 +51,7 @@ class LocationRepository(
                 for (tagName in tagNameList) {
                     val tag = Tag(
                         locationId = id,
-                        tag = tagName
+                        name = tagName
                     )
 
                     tagList.add(tag)

@@ -36,7 +36,7 @@ data class Location(
 data class Tag(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     @ColumnInfo(name = "location_id") val locationId: Int,
-    val tag: String
+    val name: String
 )
 
 data class LocationWithTags(

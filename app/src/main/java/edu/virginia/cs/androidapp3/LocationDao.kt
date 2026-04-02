@@ -33,6 +33,6 @@ interface LocationDao {
     }
 
     // Credit to Gemini 3.1 Pro for this function so I can fetch these with SQL instead of having to filter in kotlin
-    @Query("SELECT DISTINCT tag FROM Tag ORDER BY tag ASC")
+    @Query("SELECT DISTINCT name FROM Tag ORDER BY name ASC")
     fun getUniqueTags(): Flow<List<String>>
 }
