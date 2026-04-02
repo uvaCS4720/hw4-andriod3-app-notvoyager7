@@ -12,7 +12,7 @@ References:
 - Android and Kotlin Docs
 - Gemini 3.1 Pro and Claude Opus 4.6 extended for help with architectural design patterns, for debugging, as an API reference, and code generation (cited in the code). Gemini and Claude also helped me with best practices for things like flows, viewmodels, room, and retrofit
 - [Google Mars code lab](https://developer.android.com/codelabs/basic-android-kotlin-compose-getting-data-internet#4)
-- My previous homeworks (specifically Android App 2 as a lot of the code was nearly identical so I reused/altered my implementations)
+- My previous homeworks (specifically Android App 2 as a lot of the necessary code was nearly identical so I reused/altered my implementation from that homework for this one)
 - Counters lab and in-class examples
 - Everything else is cited in-line and all generated code is cited in-line
 
