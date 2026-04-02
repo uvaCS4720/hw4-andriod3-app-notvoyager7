@@ -97,7 +97,7 @@ fun MainScreen(
 
     Column(modifier = modifier.padding(start = 10.dp, end = 10.dp, top = 15.dp)) {
         Text(
-            text = "Map View",
+            text = "Map of Grounds",
             fontWeight = FontWeight.Bold,
             style = MaterialTheme.typography.displayMedium,  // Gemini 3 Pro showed me how to set the font this way to avoid issues with line height
             color = MaterialTheme.colorScheme.secondary
