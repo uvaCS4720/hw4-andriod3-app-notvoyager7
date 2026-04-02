@@ -269,7 +269,8 @@ fun MinimalDropdownMenu(
         ) {
             options.forEach { option ->
                 DropdownMenuItem(
-                    text = { Text(option.replaceFirstChar { it.titlecase() }) },
+                    // stopped capitalizing option text for same reason as above
+                    text = { Text(option) },
                     onClick = {
                         expanded = false
                         onClick(option)
