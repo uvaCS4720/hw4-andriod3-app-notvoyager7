@@ -1,6 +1,7 @@
 package edu.virginia.cs.androidapp3
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -22,19 +23,26 @@ interface LocationDao {
 
     // because of the on-delete cascade, this will delete all tags as well
     @Query("DELETE FROM Location")
-    fun deleteAllLocations()
+    suspend fun deleteAllLocations()
 
     // Credit to Gemini 3.1 Pro for this function to ensure these are completed as a single transaction
     @Transaction
-    suspend fun synchronizeLocationsAndTags(locations: List<Location>, tags: List<Tag>) {
+    suspend fun synchronizeLocationsAndTags(locations: List<Location>, tags: List<Tag>, tagsToDelete: List<Tag>) {
         // TODO: ask about ghost data
         // This version without the delete makes the assumption that locations will NEVER have another id (that they are unique and not changed)
 //        deleteAllLocations()  // I removed this as it was not necessary because of my on conflict replace/ignore strategies
         insertAllLocations(locations)
         insertAllTags(tags)
+        deleteTags(tagsToDelete)  // this fixes the ghost data issue a different way
     }
 
     // Credit to Gemini 3.1 Pro for this function so I can fetch these with SQL instead of having to filter in kotlin
     @Query("SELECT DISTINCT name FROM Tag ORDER BY name ASC")
     fun getUniqueTags(): Flow<List<String>>
+
+    @Query("SELECT * FROM Tag")
+    suspend fun getAllTags(): List<Tag>
+
+    @Delete
+    suspend fun deleteTags(tags: List<Tag>)
 }

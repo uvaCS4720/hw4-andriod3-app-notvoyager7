@@ -27,6 +27,9 @@ class LocationRepository(
             val locationList: MutableList<Location> = mutableListOf()
             val tagList: MutableList<Tag> = mutableListOf()
 
+            val oldTagList = locationDao.getAllTags()
+            val tagDeletionList: MutableList<Tag> = mutableListOf()
+
             for (locationRemoteData in locationsRemoteData) {
 
                 // Strip fields from raw remote data
@@ -56,9 +59,16 @@ class LocationRepository(
 
                     tagList.add(tag)
                 }
+
+                // mark removed tags for deletion
+                for (oldTag in oldTagList.filter { it.locationId == id }) {
+                    if (!tagList.filter { it.locationId == location.id }.any { it.name == oldTag.name }) {
+                        tagDeletionList.add(oldTag)
+                    }
+                }
             }
 
-            locationDao.synchronizeLocationsAndTags(locationList, tagList)
+            locationDao.synchronizeLocationsAndTags(locationList, tagList, tagDeletionList)
         } catch (e: Exception) {
             // Gemini 3 Pro suggested this to ensure that I do not mistakenly suppress a coroutine's cancellation
             if (e is kotlinx.coroutines.CancellationException) {
